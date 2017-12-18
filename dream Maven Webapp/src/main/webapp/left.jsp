@@ -14,7 +14,7 @@
 	<a href="${ctx}/file/findFiles.action" class="file" target="rightFrame">文件列表</a><br/>
 	<a href="${ctx}/user/toViewUser.action?files.usage=1&files.user.id=${loginUser.id}" class="view" target="rightFrame">查看用户</a><br/>
 	<a href="${ctx}/dept/findDepts.action" class="dept" target="rightFrame">部门列表</a><br/>
-	<a href="${ctx}/employee/findEmployees.action" class="employee" target="rightFrame">员工列表</a>
-	<a href="${ctx}/region/toSelect.action" class="region" target="rightFrame">测试城市</a>
+	<a href="${ctx}/employee/findEmployees.action" class="employee" target="rightFrame">员工列表</a><br/>
+	<a href="${ctx}/region/toSelect.action" class="region" target="rightFrame">测试</a>
 </body>
 </html>
