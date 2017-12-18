@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="batchfile" namespace="/batchfile" extends="struts-base">
+		<action name="toBatchUpload" class="batchUploadAction" method="toBatchUpload">
+			<result>/WEB-INF/upload/batchupload.jsp</result>
+		</action>
+		<action name="batchUpload" class="batchUploadAction" method="batchUpload">
+			<result>/WEB-INF/upload/batchsuccess.jsp</result>
+		</action>
+	</package>
+</struts>

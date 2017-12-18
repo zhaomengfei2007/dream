@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+<!-- For times when you just need to invoke a method on a specific object -->  
+    <bean id="myJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="springQtz" />  <!-- 对应你要执行的方法类 -->
+        <property name="targetMethod" value="execute" />   <!-- 对应你要执行的方法 -->
+    </bean>
+    
+    <bean id="springQtz" class="com.chuangjian.web.quartz.CallBackInjectResultJob"></bean>
+    
+    <!-- Run the job every 5 seconds -->  
+    <bean id="cronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="myJobDetail" />              <!-- 你要调度的任务,即上面的bean id=myJobDetail -->
+        <property name="cronExpression" value="0/10 * * ? * *" />    <!-- 调度的时间设置，我这里是10秒一次 -->
+    </bean>  
+    
+    <!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->  
+    <!-- 将调度和触发器整合 -->
+    <bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="jobDetails">  
+            <list>
+                <ref bean="myJobDetail" />  
+            </list>  
+        </property>  
+        <property name="triggers">  
+            <list>   
+                <ref bean="cronTrigger" />  
+            </list>  
+        </property>  
+    </bean>
+     
+     </beans>

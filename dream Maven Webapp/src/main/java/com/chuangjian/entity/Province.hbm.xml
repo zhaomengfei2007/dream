@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chuangjian.entity">
+ <class name="Province" table="PROVINCE">
+  <id column="PROVINCE_ID" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <property name="name" column="PROVINCE_NAME" type="java.lang.String"></property>
+  <property name="abbreviation" column="PROVINCE_ABBREVIATION" type="java.lang.String"></property>
+  <set name="cities" cascade="none" inverse="true" lazy="false">
+		<key column="CITY_PROVINCE"></key>
+		<one-to-many class="City"/>
+  </set>
+ </class>
+</hibernate-mapping>

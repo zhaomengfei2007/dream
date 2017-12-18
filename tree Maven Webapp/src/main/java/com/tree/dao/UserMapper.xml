@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.tree.dao.IUserDao">
+	<sql id="getAllUsers">
+		SELECT U.USER_ID,U.USER_NAME,U.USER_PASSWORD,R.ROLE_NAME FROM USER U INNER JOIN ROLE R ON U.USER_ROLE=R.ROLE_ID
+	</sql>
+	<select id="getUserById" parameterType="int" resultMap="userResultMap">
+		SELECT U.USER_ID,U.USER_NAME,U.USER_PASSWORD FROM USER U WHERE USER_ID=#{id};
+	</select>
+
+	<select id="getUserByName" parameterType="String" resultMap="userResultMap">
+		SELECT U.USER_ID,U.USER_NAME,U.USER_PASSWORD FROM USER U WHERE USER_NAME=#{username};
+	</select>
+
+	<select id="getUserList" resultType="User">
+		<include refid="getAllUsers"/>
+			;
+	</select>
+	
+	<insert id="addUser" parameterType="User">
+		INSERT INTO USER(USER_NAME,USER_PASSWORD,USER_ROLE) VALUES(#{username},#{password},#{roleId})
+	</insert>
+
+	<resultMap type="User" id="userResultMap">
+		<id column="USER_ID" property="id"/>
+		<result column="USER_NAME" property="username"/>
+		<result column="USER_PASSWORD" property="password"/>
+		<result column="ROLE_ID" property="roleId"/>
+		<result column="ROLE_NAME" property="rolename"/>
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="region" namespace="/region" extends="struts-base">
+   		<action name="getCityListByProvince" class="regionAction" method="getCityListByProvince">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   				<param name="excludeProperties">.*hibernateLazyInitializer</param>
+   			</result>
+   		</action>
+   		<action name="getDistrictListByCity" class="regionAction" method="getDistrictListByCity">
+   			<result type="json">
+				<param name="root">resultMap</param>
+				<param name="excludeProperties">.*hibernateLazyInitializer</param>
+			</result>
+		</action>
+		<action name="toSelect" class="regionAction" method="toSelect">
+			<result>/WEB-INF/employee/city.jsp</result>
+		</action>
+	</package>
+</struts>

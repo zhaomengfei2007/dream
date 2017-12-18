@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Middle tier application context definition for the image database.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+<import resource="serviceContext.xml"/>
+	<!-- action -->
+	<bean id="baseAction" class="com.chuangjian.web.action.BaseAction" abstract="true">
+		<property name="userService" ref="userService"></property>
+		<property name="roleService" ref="roleService"></property>
+		<property name="districtService" ref="districtService"></property>
+		<property name="filesService" ref="filesService"></property>
+		<property name="deptService" ref="deptService"></property>
+		<property name="employeeService" ref="employeeService"></property>
+		<property name="cityService" ref="cityService"></property>
+		<property name="provinceService" ref="provinceService"></property>
+	</bean>
+	<bean id="userAction" class="com.chuangjian.web.action.UserAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="normalAction" class="com.chuangjian.web.action.NormalAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="fileUploadAction" class="com.chuangjian.web.action.FileUploadAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="filesAction" class="com.chuangjian.web.action.FilesAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="downloadIconAction" class="com.chuangjian.web.action.DownloadIconAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="downloadFilesAction" class="com.chuangjian.web.action.DownloadFilesAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="deptAction" class="com.chuangjian.web.action.DeptAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="employeeAction" class="com.chuangjian.web.action.EmployeeAction" scope="prototype" parent="baseAction"></bean>
+	<bean id="regionAction" class="com.chuangjian.web.action.RegionAction" scope="prototype" parent="baseAction"></bean>
+</beans>

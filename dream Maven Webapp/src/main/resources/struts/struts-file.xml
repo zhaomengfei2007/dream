@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="file" namespace="/file" extends="struts-base">
+		<action name="toUploadIcon" class="fileUploadAction" method="toUploadIcon">
+			<result>/WEB-INF/upload/uploadicon.jsp</result>
+		</action>
+		<action name="doUploadIcon" class="fileUploadAction" method="doUploadIcon">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   			<interceptor-ref name="defaultStack">
+   				<param name="fileUpload.allowedTypes">image/jpeg,image/gif,image/pjpeg</param>
+   				<param name="fileUpload.maximumSize">600000</param>
+   			</interceptor-ref>
+   		</action>
+   		
+   		<action name="successUploadIcon" class="fileUploadAction" method="successUploadIcon">
+   			<result>/WEB-INF/user/viewuser.jsp</result>
+   		</action>
+   		
+   		<action name="findFiles" class="fileUploadAction" method="findFiles">
+   			<result>/WEB-INF/upload/fileslist.jsp</result>
+   		</action>
+   		
+   		<action name="doUploadFiles" class="fileUploadAction" method="doUploadFiles">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   		</action>
+   		
+   		<action name="toUploadFiles" class="fileUploadAction" method="toUploadFiles">
+   			<result>/WEB-INF/upload/uploadfiles.jsp</result>
+   		</action>
+   		
+   		<action name="toDownloadIcon" class="downloadIconAction" method="toDownloadIcon">
+   			<result>/WEB-INF/download/usericon.jsp</result>
+   		</action>
+   		
+   		<action name="deleteFiles" class="fileUploadAction" method="deleteFiles">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   		</action>
+   		
+   		<action name="downloadIcon" class="downloadIconAction" method="downloadIcon">
+   			<param name="inputPath">${inputPath}</param>
+   			<result type="stream">
+   				<param name="contentType">image/jpg</param>
+   				<param name="inputName">inputStream</param>
+   				<param name="contentDisposition">attachment;filename="${files.name}"</param>
+   				<param name="bufferSize">600000</param>
+   			</result>
+   		</action>
+   		
+   		<action name="downloadFiles" class="downloadFilesAction" method="downloadFiles">
+   			<result name="success" type="stream">
+   				<param name="inputPath">${inputPath}</param>
+   				<param name="inputName">inputStream</param>
+   				<param name="contentDisposition">attachment;filename="${files.name}"</param>
+   			</result>
+   		</action>
+   		
+   		<action name="getFilesCountByUser" class="fileUploadAction" method="getFilesCountByUser">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   		</action>
+   		
+	</package>
+</struts>

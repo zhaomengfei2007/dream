@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="employee" namespace="/employee" extends="struts-base">
+	   	<action name="findEmployees" class="employeeAction" method="findEmployees" >
+   			<result>/WEB-INF/employee/employeeList.jsp</result>
+   		</action>
+   		<action name="deleteEmployee" class="employeeAction" method="deleteEmployee">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   		</action>
+   		<action name="toAddEmployee" class="employeeAction" method="toAddEmployee">
+   			<result>/WEB-INF/employee/addEmployee.jsp</result>
+   		</action>
+   		<action name="doAddEmployee" class="employeeAction" method="doAddEmployee">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+   		</action>
+   		<action name="toUpdateEmployee" class="employeeAction" method="toUpdateEmployee">
+   			<result>/WEB-INF/employee/updateEmployee.jsp</result>
+   		</action>
+   		<action name="doUpdateEmployee" class="employeeAction" method="doUpdateEmployee">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+		<action name="getCountByDept" class="employeeAction" method="getCountByDept">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+   		</action>
+   		<action name="getCity" class="employeeAction" method="getCity">
+   			<result>/WEB-INF/employee/city.jsp</result>
+   		</action>
+	</package>
+</struts>

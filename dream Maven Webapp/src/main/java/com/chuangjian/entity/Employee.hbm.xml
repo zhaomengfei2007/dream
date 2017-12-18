@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chuangjian.entity">
+ <class name="Employee" table="EMPLOYEE">
+  <id column="EMPLOYEE_ID" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  	<property name="name" column="EMPLOYEE_NAME" type="java.lang.String"></property>
+  	<property name="address" column="EMPLOYEE_ADDRESS" type="java.lang.String"></property>
+	<property name="phone" column="EMPLOYEE_PHONE" type="java.lang.String"></property>
+  	<property name="school" column="EMPLOYEE_SCHOOL" type="java.lang.String"></property>
+  	<property name="graduate" column="EMPLOYEE_GRADUATEDATE" type="java.util.Date"></property>
+  	<property name="specialty" column="EMPLOYEE_SPECIALTY" type="java.lang.String"></property>
+  	<property name="education" column="EMPLOYEE_EDUCATION" type="java.lang.String"></property>
+  	<property name="gender" column="EMPLOYEE_GENDER" type="java.lang.Integer"></property>
+  	<property name="quitDate" column="EMPLOYEE_QUITDATE" type="java.util.Date"></property>
+  	<property name="entryDate" column="EMPLOYEE_ENTRYDATE" type="java.util.Date"></property>
+  	
+  	<many-to-one name="city" column="EMPLOYEE_CITY" class="City" cascade="none"></many-to-one>
+  	<many-to-one name="dept" column="EMPLOYEE_DEPT" class="Dept" cascade="none"></many-to-one>
+ </class>
+</hibernate-mapping>

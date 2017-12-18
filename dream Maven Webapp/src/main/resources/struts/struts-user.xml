@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="user" namespace="/user" extends="struts-base">
+		<action name="login" class="userAction" method="login">
+			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+	   	<action name="findUsers" class="userAction" method="findUsers" >
+   			<result>/WEB-INF/user/userlist.jsp</result>
+   		</action>
+   		<action name="deleteUser" class="userAction" method="deleteUser">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   		</action>
+   		<action name="toAddUser" class="userAction" method="toAddUser">
+   			<result>/WEB-INF/user/adduser.jsp</result>
+   		</action>
+   		<action name="doAddUser" class="userAction" method="doAddUser">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+   		</action>
+   		<action name="toUpdateUser" class="userAction" method="toUpdateUser">
+   			<result>/WEB-INF/user/updateuser.jsp</result>
+   		</action>
+   		<action name="doUpdateUser" class="userAction" method="doUpdateUser">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+		<action name="toUpdatePwd" class="userAction" method="toUpdatePwd">
+   			<result>/WEB-INF/user/updatepwd.jsp</result>
+   		</action>
+   		<action name="doUpdatePwd" class="userAction" method="doUpdatePwd">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+		<action name="checkImageCode" class="userAction" method="checkImageCode">
+   			<result>/WEB-INF/pages/error.jsp</result>
+   		</action>
+   		<action name="checkUnameExists" class="userAction" method="checkUnameExists">
+   			<result>/WEB-INF/pages/error.jsp</result>
+   		</action>
+   		<action name="toViewUser" class="userAction" method="toViewUser">
+   			<result>/WEB-INF/user/viewuser.jsp</result>
+   		</action>
+	</package>
+	<package name="back" namespace="/" extends="struts-base">
+		<action name="backToLogin" class="userAction" method="backToLogin">
+   			<result>login.jsp</result>
+   		</action>
+	</package>
+</struts>

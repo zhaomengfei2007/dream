@@ -1,0 +1,53 @@
+body,table,td{
+	margin:0;
+	padding:0;
+	font-size:12px;
+	text-align:center;
+}
+
+.data_table{
+	width:98%;	
+	margin:0 auto;
+	border-collapse: collapse;
+}
+.data_table td{
+	text-align:center;
+	height:20px;
+}
+.data_table .head_tr{
+	font-weight:bold;
+	background-color:red;
+}
+.data_table .yellow{
+	background-color:yellow;
+}
+.data_table .orange{
+	background-color:orange;
+}
+
+
+:focus {
+	outline: none;
+}
+
+#container {
+	width: 400px;
+	margin: 0 auto;
+}
+
+#search-box {
+	position: relative;
+	width: 200px;
+	margin: 0 auto;
+	display: inline;
+}
+
+
+.wrapper {
+	width: 750px;
+	margin: 0 auto;
+}
+
+br{
+	display: none;
+}

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd  
+    http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop.xsd  
+    http://www.springframework.org/schema/tx   
+    http://www.springframework.org/schema/tx/spring-tx.xsd">  
+      
+	<!--引入propertise文件  -->  
+	<context:property-placeholder location="classpath:jdbc.properties"/>      
+      
+	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
+	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="validationQuery" value="SELECT 1" />
+		<!-- 初始化大小 -->
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="0" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 获取连接时测试是否有效 -->
+		<property name="testOnBorrow" value="false" />
+		<!-- 归还连接时是否测试有效 -->
+		<property name="testOnReturn" value="false" />
+		<!-- 连接空闲时测试是否有效 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 逐出连接的检测时间间隔(主要用于检测空闲的连接) -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒,最小逐出时间 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<!-- 打开关闭“赃”连接（调用过getVendorConnection方法）功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 连接泄漏的超时时间 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭泄漏的连接时打印堆栈信息 -->
+		<property name="logAbandoned" value="true" />
+		<!-- 监控数据库 -->
+		<!-- <property name="filters" value="stat" /> -->
+		<property name="filters" value="mergeStat" />
+	</bean> 
+
+	<!--2.配置mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 -->  
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+		<property name="dataSource" ref="dataSource"></property>  
+		<property name="typeAliasesPackage" value="com.tree.entity" />  
+	</bean>  
+
+	<!-- 3. 自动扫描mybatis映射文件和接口的包 -->  
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+		<property name="basePackage" value="com.tree.dao"></property>
+	</bean>  
+
+	<!--4.配置事务管理器  -->  
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+		<property name="dataSource" ref="dataSource"></property>  
+	</bean>  
+
+	<!--5.开启注解进行事务管理   transaction-manager：引用上面定义的事务管理器-->  
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<!-- For times when you just need to invoke a method on a specific object -->  
+	<bean id="myJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+		<property name="targetObject" ref="springQtz" />  <!-- 对应你要执行的方法类 -->
+		<property name="targetMethod" value="execute" />   <!-- 对应你要执行的方法 -->
+	</bean>
+
+	<bean id="springQtz" class="com.tree.service.quartz.SpringQtz"></bean>
+
+	<!-- Run the job every 5 seconds -->  
+	<bean id="cronTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+		<property name="jobDetail" ref="myJobDetail" />    <!-- 调度的任务,即上面的bean id=myJobDetail -->
+		<property name="cronExpression" value="0/10 * * ? * *" />    <!-- 调度的时间设置，这里是10秒一次 -->
+	</bean>  
+
+	<!-- Scheduler factory bean to glue together jobDetails and triggers to Configure Quartz Scheduler -->  
+	<!-- 将调度和触发器整合 -->
+	<bean  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+		<property name="jobDetails">  
+			<list>
+				<ref bean="myJobDetail" />  
+			</list>  
+		</property>  
+		<property name="triggers">  
+			<list>   
+				<ref bean="cronTrigger" />  
+			</list>  
+		</property>  
+	</bean>
+	
+</beans> 

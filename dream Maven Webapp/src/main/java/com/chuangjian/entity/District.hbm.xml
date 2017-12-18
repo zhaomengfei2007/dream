@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chuangjian.entity">
+ <class name="District" table="DISTRICT">
+  <id column="DISTRICT_ID" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <many-to-one name="city" column="DISTRICT_CITY" class="City" cascade="none" ></many-to-one>
+  <property name="name" column="DISTRICT_NAME" type="java.lang.String"></property>
+  <set name="users" cascade="none" inverse="true">
+		<key column="USER_DISTRICT"></key>
+		<one-to-many class="User"/>
+  </set>
+ </class>
+</hibernate-mapping>

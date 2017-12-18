@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chuangjian.entity">
+ <class name="Dept" table="DEPT">
+  <id column="DEPT_ID" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  	<property name="name" column="DEPT_NAME" type="java.lang.String"></property>
+  	<property name="desc" column="DEPT_DESC" type="java.lang.String"></property>
+  	<set name="employees" cascade="none" inverse="true">
+		<key column="EMPLOYEE_DEPT"></key>
+		<one-to-many class="Employee"/>
+	</set>
+ </class>
+</hibernate-mapping>

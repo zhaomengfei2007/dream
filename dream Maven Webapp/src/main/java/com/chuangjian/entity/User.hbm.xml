@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chuangjian.entity">
+ <class name="User" table="user">
+  <id column="USER_ID" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  	<property name="name" column="USER_NAME" type="java.lang.String"></property>
+  	<property name="pwd" column="USER_PASSWORD" type="java.lang.String"></property>
+  	<many-to-one name="role" column="USER_ROLE" class="Role" cascade="none"></many-to-one>
+  	<many-to-one name="district" column="USER_DISTRICT" class="District" cascade="none"></many-to-one>
+  	<set name="fileSet" cascade="none" inverse="true">
+  		<key column="FILES_USER"></key>
+  		<one-to-many class="Files"/>
+  	</set>
+  	<property name="gender" column="USER_GENDER" type="java.lang.Integer"></property>
+  	<property name="desc" column="USER_DESC" type="java.lang.String"></property>
+  	<property name="create" column="USER_CREATETIME" type="java.util.Date"></property>
+  	<property name="update" column="USER_UPDATETIME" type="java.util.Date"></property>
+ </class>
+</hibernate-mapping>

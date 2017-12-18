@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="dept" namespace="/dept" extends="struts-base">
+	   	<action name="findDepts" class="deptAction" method="findDepts" >
+   			<result>/WEB-INF/dept/deptlist.jsp</result>
+   		</action>
+   		<action name="deleteDept" class="deptAction" method="deleteDept">
+   			<result type="json">
+   				<param name="root">resultMap</param>
+   			</result>
+   		</action>
+   		<action name="toAddDept" class="deptAction" method="toAddDept">
+   			<result>/WEB-INF/dept/adddept.jsp</result>
+   		</action>
+   		<action name="doAddDept" class="deptAction" method="doAddDept">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+   		</action>
+   		<action name="toUpdateDept" class="deptAction" method="toUpdateDept">
+   			<result>/WEB-INF/dept/updatedept.jsp</result>
+   		</action>
+   		<action name="doUpdateDept" class="deptAction" method="doUpdateDept">
+   			<result type="json">
+				<param name="root">resultMap</param>
+			</result>
+		</action>
+	</package>
+</struts>

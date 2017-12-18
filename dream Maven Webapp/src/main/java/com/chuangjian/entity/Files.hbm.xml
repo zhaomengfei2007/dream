@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chuangjian.entity">
+ <class name="Files" table="files">
+  <id column="FILES_ID" name="id" type="java.lang.Integer">
+   <generator class="native"/>
+  </id>
+  <many-to-one name="user" column="FILES_USER" class="User" cascade="none"></many-to-one>
+  <property name="name" column="FILES_NAME" type="java.lang.String"></property>
+  <property name="path" column="FILES_PATH" type="java.lang.String"></property>
+  <property name="size" column="FILES_SIZE" type="java.lang.Long"></property>
+  <property name="uploadDate" column="FILES_UPLOADTIME" type="java.util.Date"></property>
+  <property name="usage" column="FILES_USAGE" type="java.lang.Integer"></property>
+  
+ </class>
+</hibernate-mapping>

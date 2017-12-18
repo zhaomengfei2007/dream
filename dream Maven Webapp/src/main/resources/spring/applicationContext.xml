@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Middle tier application context definition for the image database.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+				
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+				
+<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
+	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="validationQuery" value="SELECT 1" />
+		<!-- 初始化大小 -->
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="0" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 获取连接时测试是否有效 -->
+		<property name="testOnBorrow" value="false" />
+		<!-- 归还连接时是否测试有效 -->
+		<property name="testOnReturn" value="false" />
+		<!-- 连接空闲时测试是否有效 -->
+		<property name="testWhileIdle" value="true" />
+		<!-- 逐出连接的检测时间间隔(主要用于检测空闲的连接) -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒,最小逐出时间 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<!-- 打开关闭“赃”连接（调用过getVendorConnection方法）功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 连接泄漏的超时时间 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭泄漏的连接时打印堆栈信息 -->
+		<property name="logAbandoned" value="true" />
+		<!-- 监控数据库 -->
+		<!-- <property name="filters" value="stat" /> -->
+		<property name="filters" value="mergeStat" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${jdbc.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/chuangjian/entity/User.hbm.xml</value>
+				<value>com/chuangjian/entity/Role.hbm.xml</value>
+				<value>com/chuangjian/entity/District.hbm.xml</value>
+				<value>com/chuangjian/entity/Files.hbm.xml</value>
+				<value>com/chuangjian/entity/Dept.hbm.xml</value>
+				<value>com/chuangjian/entity/Employee.hbm.xml</value>
+				<value>com/chuangjian/entity/City.hbm.xml</value>
+				<value>com/chuangjian/entity/Province.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置声明式事务 -->
+	<!-- 创建事务管理器 -->
+	<bean id="myTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- 创建一个事务advice-->
+	<tx:advice id="txAdvice" transaction-manager="myTransactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED"></tx:method>
+			<tx:method name="del*" propagation="REQUIRED"></tx:method>
+			<tx:method name="update*" propagation="REQUIRED"></tx:method>
+			<tx:method name="do*" propagation="REQUIRED"></tx:method>
+			<tx:method name="*" propagation="SUPPORTS" read-only="true"></tx:method>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="bizMethods" expression="execution(* com.chuangjian.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="bizMethods"></aop:advisor>
+	</aop:config>
+	
+
+</beans>
